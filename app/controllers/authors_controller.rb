@@ -7,15 +7,21 @@ class AuthorsController < ApplicationController
   end
 
   def create
+  #  using params 
     author = Author.create(author_params)
+    if authhor.save
+      render json: author, status: :created
+    else  
+      render json: { errors: author.errors.full_messages }, status: :unprocessable_entity
+    end
 
-    render json: author, status: :created
+    
   end
 
   private
-  
+  # 
   def author_params
-    params.permit(:email, :name)
+    params.require(:author).permit(:name, :email)
   end
   
 end
